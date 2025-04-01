@@ -85,7 +85,7 @@ select {
   margin-top: 20px;
 }
 
-button {
+.btn button {
   width: 100%;
   padding: 12px;
   background-color: #4CAF50;
@@ -98,13 +98,9 @@ button {
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-button:hover {
+.btn button:hover {
   background-color: #45a049;
   transform: scale(1.02);
-}
-
-button:active {
-  transform: scale(0.98);
 }
 
 a {
@@ -120,44 +116,6 @@ a:hover {
   text-decoration: underline;
   color: #0056b3;
 }
-
-@media (max-width: 768px) {
-  .Form {
-    padding: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-
-  input, select {
-    font-size: 13px;
-    padding: 10px;
-  }
-
-  button {
-    font-size: 14px;
-    padding: 10px;
-  }
-
-  h2 {
-    font-size: 20px;
-  }
-}
-
-@media (max-width: 480px) {
-  .genders {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  label {
-    font-size: 13px;
-  }
-
-  button {
-    font-size: 14px;
-    padding: 8px;
-  }
-}
-
 link{
   font-size: 18px;
 }

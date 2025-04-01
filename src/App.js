@@ -5,19 +5,34 @@ import Login from "./Login";
 import Dashboard from "./Dashboard";
 import Classcomponent from "./Classcomponent";
 import Props from "./Props";
+// import Parent from "./Badprops";
+// import Parent from "./Drilling"
+import Student from "./Student";
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Form />} />
-        <Route path="/Login" element={<Login isLogin={true} />} />
-        <Route path="/signup" element={<Login isLogin={false} />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/Counter" element={<Classcomponent />} />
-        <Route path="/Props" element={<Props />} />
+    <>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Form />} />
+          <Route path="/Login" element={<Login isLogin={true} />} />
+          <Route path="/signup" element={<Login isLogin={false} />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/Counter" element={<Classcomponent />} />
+          <Route path="/Props" element={<Props />} />
+          {/* <Route path="/badprops" element={<Parent />} /> */}
+          {/* <Route path="/Drill" element={<Parent />} /> */}
 
-      </Routes>
-    </Router>
+        </Routes>
+      </Router>
+
+      <Student name="Sahith" age={22} student="true"></Student>
+      <Student name="Babji" age={24} student="false"></Student>
+      <Student name="ram"  age={26} student={false}></Student>
+      <Student name="sita"  age={20} student={true}></Student>
+      <Student />
+      {/* <Badprops></Badprops> */}
+
+    </>
   );
 };
 
