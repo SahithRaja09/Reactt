@@ -5,9 +5,13 @@ import Login from "./Login";
 import Dashboard from "./Dashboard";
 import Classcomponent from "./Classcomponent";
 import Props from "./Props";
+import Props1 from "./Props1"
 // import Parent from "./Badprops";
 // import Parent from "./Drilling"
 import Student from "./Student";
+import ChildParent from "./ChildParent";
+import Props2 from "./Props2";
+import Task from "./Task";
 const App = () => {
   return (
     <>
@@ -25,11 +29,15 @@ const App = () => {
         </Routes>
       </Router>
 
-      <Student name="Sahith" age={22} student="true"></Student>
-      <Student name="Babji" age={24} student="false"></Student>
+      <Student name="Sahith" age={22} student={true}></Student>
+      <Student name="Babji" age={24} student={false}></Student>
       <Student name="ram"  age={26} student={false}></Student>
       <Student name="sita"  age={20} student={true}></Student>
-      <Student />
+      <Student name="alice"/>
+      <Props1></Props1>
+      <Props2></Props2>
+      <ChildParent></ChildParent>
+      <Task></Task>
       {/* <Badprops></Badprops> */}
 
     </>
