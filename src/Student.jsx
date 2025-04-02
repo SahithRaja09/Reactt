@@ -14,13 +14,13 @@ function Student(props)
 Student.propTypes ={
     name:PropTypes.string,
     age:PropTypes.number,
-    student:PropTypes.bool
+    student:PropTypes.bool,
 }
 
 Student.defaultProps =
 {
  name:"Guest",
  age:0,
- student:false
+ student:false,
 }
 export default Student
