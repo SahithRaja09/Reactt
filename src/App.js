@@ -12,6 +12,11 @@ import Student from "./Student";
 import ChildParent from "./ChildParent";
 import Props2 from "./Props2";
 import Task from "./Task";
+import Apicall from "./Apicall";
+import UsersTable from "./UserTable";
+import Message from "./Message";
+import TitleUpdater from "./TitleUpdater";
+import ToDoList from "./ToDoList";
 const App = () => {
   return (
     <>
@@ -38,6 +43,11 @@ const App = () => {
       <Props2></Props2>
       <ChildParent></ChildParent>
       <Task></Task>
+      <Apicall></Apicall>
+      <UsersTable></UsersTable>
+      <Message></Message>
+      <TitleUpdater></TitleUpdater>
+      <ToDoList></ToDoList>
       {/* <Badprops></Badprops> */}
 
     </>
