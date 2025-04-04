@@ -17,6 +17,9 @@ import UsersTable from "./UserTable";
 import Message from "./Message";
 import TitleUpdater from "./TitleUpdater";
 import ToDoList from "./ToDoList";
+import Todo from "./Todo";
+
+import Crud from "./Crud";
 const App = () => {
   return (
     <>
@@ -28,8 +31,6 @@ const App = () => {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/Counter" element={<Classcomponent />} />
           <Route path="/Props" element={<Props />} />
-          {/* <Route path="/badprops" element={<Parent />} /> */}
-          {/* <Route path="/Drill" element={<Parent />} /> */}
 
         </Routes>
       </Router>
@@ -48,8 +49,9 @@ const App = () => {
       <Message></Message>
       <TitleUpdater></TitleUpdater>
       <ToDoList></ToDoList>
+      <Todo></Todo>
       {/* <Badprops></Badprops> */}
-
+ <Crud></Crud>
     </>
   );
 };

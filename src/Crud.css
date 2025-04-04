@@ -1,0 +1,131 @@
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .main {
+    padding: 20px;
+  }
+  
+  h1 {
+    text-align: center;
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .form {
+    background: #ffffff;
+    padding: 45px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 0 auto 30px auto;
+  }
+  
+  input, select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #fdfdfd;
+  }
+  
+  .genders {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .genders label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  p {
+    color: #e74c3c;
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+  
+  .btn {
+    text-align: center;
+  }
+  
+  .btn button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  .btn button:hover {
+    background-color: #45a049;
+  }
+  
+  .table {
+    max-width: 100%;
+    margin-top: 20px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    background: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  th, td {
+    padding: 15px;
+    text-align: left;
+    border: 1px solid #ddd;
+    font-size: 14px;
+  }
+  
+  th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+  }
+  
+  tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  button {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  /* button:hover {
+    background-color: #0056b3;
+  } */
+.actions
+{
+    display:flex;
+    gap:10px;
+}
+  .Edit
+  {
+    background-color:red;
+    color:#ffffff;
+  }

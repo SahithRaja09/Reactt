@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
+import './Crud.css'
 function Crud() {
   const [data, setData] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
@@ -43,13 +43,11 @@ function Crud() {
     }),
     onSubmit: (values) => {
       if (editIndex !== null) {
-        // Update existing data
         const updatedData = [...data];
         updatedData[editIndex] = values;
         setData(updatedData);
         setEditIndex(null);
       } else {
-        // Add new data
         setData([...data, values]);
       }
       formik.resetForm();
@@ -160,8 +158,8 @@ function Crud() {
                 <input
                   type="radio"
                   name="gender"
-                  value="male"
-                  checked={formik.values.gender === "male"}
+                  value="Male"
+                  checked={formik.values.gender === "Male"}
                   onChange={formik.handleChange}
                 />{" "}
                 Male
@@ -170,8 +168,8 @@ function Crud() {
                 <input
                   type="radio"
                   name="gender"
-                  value="female"
-                  checked={formik.values.gender === "female"}
+                  value="Female"
+                  checked={formik.values.gender === "Female"}
                   onChange={formik.handleChange}
                 />{" "}
                 Female
@@ -180,8 +178,8 @@ function Crud() {
                 <input
                   type="radio"
                   name="gender"
-                  value="others"
-                  checked={formik.values.gender === "others"}
+                  value="Others"
+                  checked={formik.values.gender === "Others"}
                   onChange={formik.handleChange}
                 />{" "}
                 Others
@@ -198,8 +196,8 @@ function Crud() {
               onBlur={formik.handleBlur}
             >
               <option value="">Select Country</option>
-              <option value="india">India</option>
-              <option value="others">Others</option>
+              <option value="India">India</option>
+              <option value="Others">Others</option>
             </select>
             {formik.touched.country && formik.errors.country && (
               <p>{formik.errors.country}</p>
@@ -235,8 +233,10 @@ function Crud() {
                   <td>{item.gender}</td>
                   <td>{item.country}</td>
                   <td>
-                    <button onClick={() => handleEdit(index)}>Edit</button>
-                    <button onClick={() => handleDelete(index)}>Delete</button>
+                    <div className="actions">
+                    <button onClick={() => handleEdit(index)} className="Edit">Edit</button>
+                    <button onClick={() => handleDelete(index)} className="Delete">Delete</button>
+                    </div>
                   </td>
                 </tr>
               ))}
