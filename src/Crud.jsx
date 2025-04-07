@@ -1,10 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import './Crud.css'
+import { Snackbar } from "@mui/material";
+import "./Crud.css";
+
 function Crud() {
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
+  const [toast, setToast] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+
+  useEffect(() => {
+    const storedData = localStorage.getItem("userData");
+    if (storedData) {
+      setData(JSON.parse(storedData));
+      setFilteredData(JSON.parse(storedData));
+    }
+  }, []);
+
+  const saveToLocalStorage = (updatedData) => {
+    localStorage.setItem("userData", JSON.stringify(updatedData));
+  };
+
+  const handleToastClose = () => {
+    setToast({ ...toast, open: false });
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -30,8 +54,10 @@ function Crud() {
         .required("Password is Required"),
       cpassword: Yup.string()
         .oneOf([Yup.ref("password"), null], "Passwords must match")
-        .required("Password Confirmation is Required"),
-      date: Yup.date().required("DOB is Required"),
+        .required("Confirm Password is Required"),
+      date: Yup.date()
+        .max(new Date(), "Date must be in the past")
+        .required("DOB is Required"),
       phonenumber: Yup.string()
         .required("Phone Number is Required")
         .matches(/^[6-9]\d{9}$/, "Invalid phone number"),
@@ -41,16 +67,31 @@ function Crud() {
       gender: Yup.string().required("Gender is Required"),
       country: Yup.string().required("Country is Required"),
     }),
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm }) => {
       if (editIndex !== null) {
         const updatedData = [...data];
         updatedData[editIndex] = values;
         setData(updatedData);
+        setFilteredData(updatedData);
+        saveToLocalStorage(updatedData);
         setEditIndex(null);
+        setToast({
+          open: true,
+          message: "User updated successfully!",
+          severity: "success",
+        });
       } else {
-        setData([...data, values]);
+        const updatedData = [...data, values];
+        setData(updatedData);
+        setFilteredData(updatedData);
+        saveToLocalStorage(updatedData);
+        setToast({
+          open: true,
+          message: "User added successfully!",
+          severity: "success",
+        });
       }
-      formik.resetForm();
+      resetForm();
     },
   });
 
@@ -62,6 +103,50 @@ function Crud() {
   const handleDelete = (index) => {
     const updatedData = data.filter((_, i) => i !== index);
     setData(updatedData);
+    setFilteredData(updatedData);
+    saveToLocalStorage(updatedData);
+    setToast({
+      open: true,
+      message: "User deleted successfully!",
+      severity: "info",
+    });
+  };
+
+  const handleSubmitClick = () => {
+    formik.handleSubmit();
+    setTimeout(() => {
+      if (!formik.isValid && formik.submitCount > 0) {
+        setToast({
+          open: true,
+          message: "Form submission failed. Please check the fields.",
+          severity: "error",
+        });
+      }
+    }, 0);
+  };
+
+  const handleName = (e) => {
+    const filterName = e.target.value.toLowerCase();
+    const filtered = data.filter((item) =>
+      item.name.toLowerCase().includes(filterName)
+    );
+    setFilteredData(filtered);
+  };
+
+  const handleEmail = (e) => {
+    const filterEmail = e.target.value;
+    const filtered = data.filter((item) =>
+      item.email.includes(filterEmail)
+    );
+    setFilteredData(filtered);
+  };
+
+  const handlePhoneNumber = (e) => {
+    const filterPhoneNumber = e.target.value;
+    const filtered = data.filter((item) =>
+      item.phonenumber.includes(filterPhoneNumber)
+    );
+    setFilteredData(filtered);
   };
 
   return (
@@ -70,6 +155,7 @@ function Crud() {
         <h1>Signup Form</h1>
         <div className="form">
           <form onSubmit={formik.handleSubmit}>
+            <label>First Name</label>
             <input
               type="text"
               placeholder="Enter your Name"
@@ -82,6 +168,7 @@ function Crud() {
               <p>{formik.errors.name}</p>
             )}
 
+           <label>Email</label>
             <input
               type="email"
               placeholder="Enter your Email"
@@ -93,7 +180,7 @@ function Crud() {
             {formik.touched.email && formik.errors.email && (
               <p>{formik.errors.email}</p>
             )}
-
+           <label>Password</label>
             <input
               type="password"
               placeholder="Enter your Password"
@@ -105,7 +192,7 @@ function Crud() {
             {formik.touched.password && formik.errors.password && (
               <p>{formik.errors.password}</p>
             )}
-
+            <label>Confirm Password</label>
             <input
               type="password"
               placeholder="Confirm your Password"
@@ -117,7 +204,8 @@ function Crud() {
             {formik.touched.cpassword && formik.errors.cpassword && (
               <p>{formik.errors.cpassword}</p>
             )}
-
+              
+            <label>Date</label>
             <input
               type="date"
               name="date"
@@ -128,7 +216,8 @@ function Crud() {
             {formik.touched.date && formik.errors.date && (
               <p>{formik.errors.date}</p>
             )}
-
+            
+            <label>Phone Number</label>
             <input
               type="text"
               placeholder="Enter your Phone Number"
@@ -140,7 +229,8 @@ function Crud() {
             {formik.touched.phonenumber && formik.errors.phonenumber && (
               <p>{formik.errors.phonenumber}</p>
             )}
-
+           
+           <label>Age</label>
             <input
               type="number"
               placeholder="Enter your Age"
@@ -152,7 +242,8 @@ function Crud() {
             {formik.touched.age && formik.errors.age && (
               <p>{formik.errors.age}</p>
             )}
-
+       
+            <label>Gender</label>       
             <div className="genders">
               <label>
                 <input
@@ -189,6 +280,7 @@ function Crud() {
               <p>{formik.errors.gender}</p>
             )}
 
+            <label>Country</label>
             <select
               name="country"
               value={formik.values.country}
@@ -204,12 +296,68 @@ function Crud() {
             )}
 
             <div className="btn">
-              <button type="submit">
+              <button type="button" onClick={handleSubmitClick}>
                 {editIndex !== null ? "Update" : "Submit"}
               </button>
+              {editIndex !== null && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    formik.resetForm();
+                    setEditIndex(null);
+                  }}
+                >
+                  Cancel
+                </button>
+              )}
             </div>
           </form>
         </div>
+
+        <Snackbar
+          open={toast.open}
+          autoHideDuration={3000}
+          onClose={handleToastClose}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          sx={{
+            "& .MuiSnackbarContent-root": {
+              backgroundColor:
+                toast.severity === "success"
+                  ? "green"
+                  : toast.severity === "error"
+                  ? "red"
+                  : toast.severity === "info"
+                  ? "#1976d2"
+                  : "orange",
+              color: "#fff",
+              fontWeight: "bold",
+              fontSize: "16px",
+              justifyContent: "center",
+            },
+          }}
+          message={toast.message}
+        />
+
+        <div className="input-fields">
+          <input
+            type="text"
+            placeholder="Search Name"
+            onChange={handleName}
+          />
+          <input
+            type="text"
+            placeholder="Search Email"
+            onChange={handleEmail}
+          />
+          <input
+            type="text"
+            placeholder="Search Phone Number"
+            onChange={handlePhoneNumber}
+          />
+
+          <button type="submit">Submit</button>
+        </div>
+
         <div className="table">
           <table border="2">
             <thead>
@@ -224,22 +372,38 @@ function Crud() {
               </tr>
             </thead>
             <tbody>
-              {data.map((item, index) => (
-                <tr key={index}>
-                  <td>{item.name}</td>
-                  <td>{item.email}</td>
-                  <td>{item.phonenumber}</td>
-                  <td>{item.age}</td>
-                  <td>{item.gender}</td>
-                  <td>{item.country}</td>
-                  <td>
-                    <div className="actions">
-                    <button onClick={() => handleEdit(index)} className="Edit">Edit</button>
-                    <button onClick={() => handleDelete(index)} className="Delete">Delete</button>
-                    </div>
-                  </td>
+              {filteredData.length > 0 ? (
+                filteredData.map((item, index) => (
+                  <tr key={item.email}>
+                    <td>{item.name}</td>
+                    <td>{item.email}</td>
+                    <td>{item.phonenumber}</td>
+                    <td>{item.age}</td>
+                    <td>{item.gender}</td>
+                    <td>{item.country}</td>
+                    <td>
+                      <div className="actions">
+                        <button
+                          onClick={() => handleEdit(index)}
+                          className="Edit"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDelete(index)}
+                          className="Delete"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="7">No data available</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
@@ -247,5 +411,4 @@ function Crud() {
     </div>
   );
 }
-
 export default Crud;
