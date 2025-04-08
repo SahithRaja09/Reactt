@@ -3,6 +3,8 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Snackbar } from "@mui/material";
 import "./Crud.css";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 function Crud() {
   const [data, setData] = useState([]);
@@ -13,7 +15,11 @@ function Crud() {
     message: "",
     severity: "success",
   });
-
+  const [searchInputs, setSearchInputs] = useState({
+    name: "",
+    email: "",
+    phonenumber: "",
+  });
   useEffect(() => {
     const storedData = localStorage.getItem("userData");
     if (storedData) {
@@ -29,6 +35,9 @@ function Crud() {
   const handleToastClose = () => {
     setToast({ ...toast, open: false });
   };
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showCPassword, setShowCPassword] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -125,27 +134,47 @@ function Crud() {
     }, 0);
   };
 
-  const handleName = (e) => {
-    const filterName = e.target.value.toLowerCase();
-    const filtered = data.filter((item) =>
-      item.name.toLowerCase().includes(filterName)
-    );
-    setFilteredData(filtered);
-  };
+  // const handleName = (e) => {
+  //   const filterName = e.target.value.toLowerCase();
+  //   const filtered = data.filter((item) =>
+  //     item.name.toLowerCase().includes(filterName)
+  //   );
+  //   setFilteredData(filtered);
+  // };
 
-  const handleEmail = (e) => {
-    const filterEmail = e.target.value;
-    const filtered = data.filter((item) =>
-      item.email.includes(filterEmail)
-    );
-    setFilteredData(filtered);
-  };
+  // const handleEmail = (e) => {
+  //   const filterEmail = e.target.value;
+  //   const filtered = data.filter((item) =>
+  //     item.email.includes(filterEmail)
+  //   );
+  //   setFilteredData(filtered);
+  // };
 
-  const handlePhoneNumber = (e) => {
-    const filterPhoneNumber = e.target.value;
-    const filtered = data.filter((item) =>
-      item.phonenumber.includes(filterPhoneNumber)
-    );
+  // const handlePhoneNumber = (e) => {
+  //   const filterPhoneNumber = e.target.value;
+  //   const filtered = data.filter((item) =>
+  //     item.phonenumber.includes(filterPhoneNumber)
+  //   );
+  //   setFilteredData(filtered);
+  // };
+
+  const handleFilter = () => {
+    const { name, email, phonenumber } = searchInputs;
+  
+    const filtered = data.filter((item) => {
+      const matchesName = name
+        ? item.name.toLowerCase().includes(name.toLowerCase())
+        : true;
+      const matchesEmail = email
+        ? item.email.toLowerCase().includes(email.toLowerCase())
+        : true;
+      const matchesPhone = phonenumber
+        ? item.phonenumber.includes(phonenumber)
+        : true;
+  
+      return matchesName && matchesEmail && matchesPhone;
+    });
+  
     setFilteredData(filtered);
   };
 
@@ -155,7 +184,8 @@ function Crud() {
         <h1>Signup Form</h1>
         <div className="form">
           <form onSubmit={formik.handleSubmit}>
-            <label>First Name</label>
+           <div className="la-bel">
+             <label>First Name</label>
             <input
               type="text"
               placeholder="Enter your Name"
@@ -164,11 +194,13 @@ function Crud() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
+           </div>
             {formik.touched.name && formik.errors.name && (
               <p>{formik.errors.name}</p>
             )}
 
-           <label>Email</label>
+          <div className="la-bel">
+          <label>Email</label>
             <input
               type="email"
               placeholder="Enter your Email"
@@ -177,35 +209,56 @@ function Crud() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
+          </div>
             {formik.touched.email && formik.errors.email && (
               <p>{formik.errors.email}</p>
             )}
-           <label>Password</label>
-            <input
-              type="password"
-              placeholder="Enter your Password"
-              name="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            {formik.touched.password && formik.errors.password && (
-              <p>{formik.errors.password}</p>
-            )}
-            <label>Confirm Password</label>
-            <input
-              type="password"
-              placeholder="Confirm your Password"
-              name="cpassword"
-              value={formik.values.cpassword}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            {formik.touched.cpassword && formik.errors.cpassword && (
-              <p>{formik.errors.cpassword}</p>
-            )}
+
+
+<label className="la-bel">
+  Password
+  <div className="password-wrapper">
+    <input
+      type={showPassword ? "text" : "password"}
+      placeholder="Enter your Password"
+      name="password"
+      value={formik.values.password}
+      onChange={formik.handleChange}
+      onBlur={formik.handleBlur}
+    />
+    <span onClick={() => setShowPassword(!showPassword)} className="icon-btn">
+      {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+    </span>
+  </div>
+  {formik.touched.password && formik.errors.password && (
+    <p>{formik.errors.password}</p>
+  )}
+</label>
+
+<label className="la-bel">
+  Confirm Password
+  <div className="password-wrapper">
+    <input
+      type={showCPassword ? "text" : "password"}
+      placeholder="Confirm your Password"
+      name="cpassword"
+      value={formik.values.cpassword}
+      onChange={formik.handleChange}
+      onBlur={formik.handleBlur}
+    />
+    <span onClick={() => setShowCPassword(!showCPassword)} className="icon-btn">
+      {showCPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+    </span>
+  </div>
+  {formik.touched.cpassword && formik.errors.cpassword && (
+    <p>{formik.errors.cpassword}</p>
+  )}
+</label>
+
+
               
-            <label>Date</label>
+          <div className="la-bel">
+          <label>Date</label>
             <input
               type="date"
               name="date"
@@ -213,23 +266,29 @@ function Crud() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
+          </div>
             {formik.touched.date && formik.errors.date && (
               <p>{formik.errors.date}</p>
             )}
             
+            <div className="la-bel">
             <label>Phone Number</label>
             <input
-              type="text"
+              type="number"
               placeholder="Enter your Phone Number"
               name="phonenumber"
               value={formik.values.phonenumber}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
+            </div>
             {formik.touched.phonenumber && formik.errors.phonenumber && (
               <p>{formik.errors.phonenumber}</p>
             )}
-           
+          
+
+          <div className="la-bel">
+              
            <label>Age</label>
             <input
               type="number"
@@ -239,11 +298,14 @@ function Crud() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
+          </div>
             {formik.touched.age && formik.errors.age && (
               <p>{formik.errors.age}</p>
             )}
        
-            <label>Gender</label>       
+
+       <div className="la-bel">
+       <label>Gender</label>       
             <div className="genders">
               <label>
                 <input
@@ -276,11 +338,14 @@ function Crud() {
                 Others
               </label>
             </div>
+       </div>
+           
             {formik.touched.gender && formik.errors.gender && (
               <p>{formik.errors.gender}</p>
             )}
 
-            <label>Country</label>
+           <div className="la-bel">
+           <label>Country</label>
             <select
               name="country"
               value={formik.values.country}
@@ -291,6 +356,7 @@ function Crud() {
               <option value="India">India</option>
               <option value="Others">Others</option>
             </select>
+           </div>
             {formik.touched.country && formik.errors.country && (
               <p>{formik.errors.country}</p>
             )}
@@ -338,25 +404,37 @@ function Crud() {
           message={toast.message}
         />
 
-        <div className="input-fields">
-          <input
-            type="text"
-            placeholder="Search Name"
-            onChange={handleName}
-          />
-          <input
-            type="text"
-            placeholder="Search Email"
-            onChange={handleEmail}
-          />
-          <input
-            type="text"
-            placeholder="Search Phone Number"
-            onChange={handlePhoneNumber}
-          />
+<div className="input-fields">
+  <input
+    type="text"
+    placeholder="Search Name"
+    name="name"
+    value={searchInputs.name}
+    onChange={(e) =>
+      setSearchInputs({ ...searchInputs, [e.target.name]: e.target.value })
+    }
+  />
+  <input
+    type="text"
+    placeholder="Search Email"
+    name="email"
+    value={searchInputs.email}
+    onChange={(e) =>
+      setSearchInputs({ ...searchInputs, [e.target.name]: e.target.value })
+    }
+  />
+  <input
+    type="number"
+    placeholder="Search Phone Number"
+    name="phonenumber"
+    value={searchInputs.phonenumber}
+    onChange={(e) =>
+      setSearchInputs({ ...searchInputs, [e.target.name]: e.target.value })
+    }
+  />
+  <button onClick={handleFilter}>Filter</button>
+</div>
 
-          <button type="submit">Submit</button>
-        </div>
 
         <div className="table">
           <table border="2">
