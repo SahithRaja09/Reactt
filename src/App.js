@@ -18,8 +18,10 @@ import React from "react";
 // import TitleUpdater from "./TitleUpdater";
 // import ToDoList from "./ToDoList";
 // import Todo from "./Todo";
-
+import UseState from "./Hooks/UseState"
 import Crud from "./Crud";
+import MyComponent from "./Hooks/MyComponent";
+import ThemeUserApp from "./Hooks/ThemeUserApp";
 const App = () => {
   return (
     <>
@@ -51,7 +53,11 @@ const App = () => {
       <ToDoList></ToDoList>
       <Todo></Todo> */}
       {/* <Badprops></Badprops> */}
- <Crud></Crud>
+ {/* <Crud></Crud> */}
+< UseState></UseState>
+<MyComponent>
+</MyComponent>
+<ThemeUserApp></ThemeUserApp>
     </>
   );
 };
